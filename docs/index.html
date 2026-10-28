@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What's Anthropic Worth?</title>
+  <meta name="description" content="A first-timer's IPO valuation model built from Anthropic's S-1.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <div class="kicker"><span>Markets · IPO Analysis</span><span>October 27, 2026</span></div>
+
+  <h1>What's Anthropic Worth? A First-Timer's Model Says About $110 a Share</h1>
+  <p class="dek">Built from the company's S-1, the estimate is nearly double what private investors paid five months ago, and almost all of it rides on one guess: how fast revenue keeps growing.</p>
+
+  <p class="byline">By <strong>Sujay Nadkarni</strong> · <a href="https://github.com/sujaynadkarni/anthropic-ipo-prediction">Code on GitHub</a> · <a href="methodology.html">Methodology</a></p>
+
+  <h2>The estimate</h2>
+  <p class="big">~$110</p>
+  <p class="big-note">Base-case fair value per share. Implied IPO price range: <strong>$93–99</strong>.</p>
+
+  <table>
+    <thead><tr><th>Scenario</th><th>Quarterly growth</th><th>2027 revenue</th><th>Per share</th></tr></thead>
+    <tbody>
+      <tr><td>Stress</td><td>1.2x</td><td>$101B</td><td>$60–90</td></tr>
+      <tr class="base"><td>Base</td><td>1.3x</td><td>$148B</td><td>$88–132</td></tr>
+      <tr><td>Compute ceiling</td><td>1.4x</td><td>$212B</td><td>$126–189</td></tr>
+    </tbody>
+  </table>
+
+  <h2>How it compares</h2>
+  <figure>
+    <svg viewBox="0 0 640 300" role="img" aria-label="Price ranges per share: stress $60–90, base $88–132, compute ceiling $126–189, implied IPO range $93–99, reported Bloomberg valuation implies $106–118, Series H price $58.90.">
+      <!-- scale: x = 20 + (price - 40) / 160 * 600 -->
+      <g stroke="#d9d6cf">
+        <line x1="57.5" y1="10" x2="57.5" y2="262"/>
+        <line x1="245" y1="10" x2="245" y2="262"/>
+        <line x1="432.5" y1="10" x2="432.5" y2="262"/>
+        <line x1="620" y1="10" x2="620" y2="262"/>
+      </g>
+      <g class="tick" text-anchor="middle">
+        <text x="57.5" y="282">$50</text>
+        <text x="245" y="282">$100</text>
+        <text x="432.5" y="282">$150</text>
+        <text x="620" y="282" text-anchor="end">$200</text>
+      </g>
+
+      <line x1="90.9" y1="10" x2="90.9" y2="262" stroke="#111" stroke-dasharray="4 3"/>
+      <text class="tick" x="94" y="258" fill="#111">Series H $58.90</text>
+
+      <text class="label" x="20" y="28">Stress · 1.2x growth</text>
+      <rect x="95" y="36" width="112.5" height="14" fill="#bdb8ad"/>
+
+      <text class="label" x="20" y="78" font-weight="700">Base · 1.3x growth</text>
+      <rect x="200" y="86" width="165" height="14" fill="#111"/>
+      <line x1="282.5" y1="82" x2="282.5" y2="104" stroke="#fbfaf7" stroke-width="2"/>
+
+      <text class="label" x="20" y="128">Compute ceiling · 1.4x growth</text>
+      <rect x="342.5" y="136" width="236.25" height="14" fill="#bdb8ad"/>
+
+      <text class="label" x="20" y="178">Implied IPO range</text>
+      <rect x="218.75" y="186" width="22.5" height="14" fill="#111"/>
+
+      <text class="label" x="20" y="228">Reported Bloomberg valuation*</text>
+      <rect x="267.5" y="236" width="45" height="14" fill="none" stroke="#111" stroke-dasharray="3 2"/>
+
+    </svg>
+    <figcaption>Fair value per share by scenario. Dashed line: price private investors paid in May–June 2026.<br>*$1.8–2T as reported via a secondary source, divided by our 16.9B share estimate.</figcaption>
+  </figure>
+
+  <h2>In brief</h2>
+  <ul>
+    <li><strong>Revenue is exploding.</strong> $0.4B in Q1 2025 to $11.6B in Q2 2026, growing 2.4x in the latest quarter alone.</li>
+    <li><strong>Compute is the speed limit.</strong> Contracts deliver roughly $100B of compute in 2027, enough for about 1.4x quarterly growth, not 2.4x.</li>
+    <li><strong>The multiple is 10–15x 2027 revenue,</strong> between NVIDIA (~8x) and Palantir (~38x), anchored on OpenAI's pending round.</li>
+    <li><strong>Growth dominates.</strong> Dropping from 1.4x to 1.2x a quarter roughly halves the price.</li>
+  </ul>
+
+  <p><a href="methodology.html">Read the full methodology →</a></p>
+
+  <footer>
+    Not investment advice. An educational exercise built on the author's assumptions with the help of Claude, an AI model made by Anthropic, the company being valued. Price range and share count will change when the amended S-1 is filed.
+  </footer>
+</main>
+</body>
+</html>

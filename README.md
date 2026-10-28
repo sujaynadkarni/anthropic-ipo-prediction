@@ -111,3 +111,6 @@ run.py                prints the full valuation
 
 ## Next
 Compare against the actual price range in the S-1/A, expected around the roadshow launch (reportedly the week of November 9, 2026).
+
+## Web page
+A short newspaper-style write-up lives in `docs/` (`index.html` + `methodology.html`), served with GitHub Pages from the `/docs` folder on `main`.

@@ -1,0 +1,119 @@
+:root {
+  --paper: #fbfaf7;
+  --ink: #111;
+  --muted: #666;
+  --rule: #d9d6cf;
+  --accent: #111;
+  --bar: #bdb8ad;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 16px 64px;
+}
+
+.kicker, .byline, .label, table, figcaption, footer, nav {
+  font-family: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+}
+
+.kicker {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-top: 3px double var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding: 6px 0;
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  font-size: clamp(32px, 6vw, 46px);
+  line-height: 1.12;
+  font-weight: 600;
+  margin: 0 0 14px;
+}
+
+.dek {
+  font-size: 22px;
+  line-height: 1.4;
+  color: #333;
+  margin: 0 0 22px;
+}
+
+.byline {
+  font-size: 13px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 18px;
+  margin-bottom: 30px;
+}
+.byline strong { color: var(--ink); text-transform: uppercase; letter-spacing: 0.06em; }
+
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--ink); }
+
+h2 {
+  font-family: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--ink);
+  padding-top: 10px;
+  margin: 44px 0 14px;
+}
+
+.big {
+  font-size: clamp(56px, 12vw, 84px);
+  font-weight: 600;
+  line-height: 1;
+  margin: 8px 0 4px;
+}
+.big-note { color: var(--muted); font-size: 16px; margin: 0 0 8px; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  margin: 10px 0;
+}
+th, td { padding: 9px 6px; text-align: right; border-bottom: 1px solid var(--rule); }
+th:first-child, td:first-child { text-align: left; }
+th { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+tr.base td { font-weight: 700; }
+
+figure { margin: 18px 0; }
+figure svg { width: 100%; height: auto; display: block; }
+figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+.label { font-size: 13px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.tick { font-size: 12px; fill: var(--muted); }
+
+footer {
+  margin-top: 56px;
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+nav { font-size: 13px; margin-bottom: 18px; }
+
+ol, ul { padding-left: 22px; }
+li { margin-bottom: 6px; }
+code { font-size: 0.85em; background: #efede7; padding: 1px 4px; }
+
+figure svg text { font-family: "Libre Franklin", "Helvetica Neue", Arial, sans-serif; }

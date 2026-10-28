@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Valuation Methodology</title>
+  <meta name="description" content="How the Anthropic IPO estimate was built, step by step.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <nav><a href="index.html">← Back to the estimate</a></nav>
+  <div class="kicker"><span>Methodology</span><span>October 27, 2026</span></div>
+
+  <h1>How the Estimate Was Built</h1>
+  <p class="dek">One formula, six steps, and every number traced to the S-1 or to an assumption stated out loud.</p>
+
+  <p class="byline">By <strong>Sujay Nadkarni</strong> · <a href="https://github.com/sujaynadkarni/anthropic-ipo-prediction">Code on GitHub</a></p>
+
+  <p>The whole model is one line:</p>
+  <p><code>price per share = (multiple × 2027 revenue + cash − lease debt) ÷ shares</code></p>
+
+  <h2>1. Read the S-1</h2>
+  <p>The source is Anthropic's <a href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm">Form S-1</a>, filed October 26, 2026. The price range and final share count are still blank and will arrive in an amendment. What matters most:</p>
+  <ul>
+    <li>Quarterly revenue went from $0.38B (Q1 2025) to $11.56B (Q2 2026).</li>
+    <li>Gross margin is about 85% as reported, but about 45% if all compute is counted as a cost; the split isn't disclosed.</li>
+    <li>About $0.5 trillion of compute commitments with Broadcom, Google, Amazon, Microsoft and others.</li>
+    <li>5–7% of recent revenue came from customers violating the usage policy.</li>
+    <li>A 10-for-1 stock split in September 2026; preferred shares convert 10:1.</li>
+  </ul>
+
+  <h2>2. Choose comparables</h2>
+  <p>No public company looks like Anthropic. Its closest rival, OpenAI, is private; Google and Microsoft do too many other things. So the model uses OpenAI's pending $1.25 trillion round (about 10–12x forward revenue) as the anchor, checked against three public companies chosen for specific traits:</p>
+  <table>
+    <thead><tr><th>Company</th><th>Why</th><th>EV / next-year revenue</th></tr></thead>
+    <tbody>
+      <tr><td>Palantir</td><td>AI premium</td><td>~38x</td></tr>
+      <tr><td>NVIDIA</td><td>AI growth at scale</td><td>~8x</td></tr>
+      <tr><td>CoreWeave</td><td>Compute-heavy, debt-laden</td><td>~3x</td></tr>
+    </tbody>
+  </table>
+  <p>The model uses <strong>10–15x</strong>: between NVIDIA and Palantir, trimmed for compute risk and because private-round prices run rich. xAI was excluded; its merger price implied about 500x a tiny revenue base.</p>
+
+  <h2>3. Forecast 2027 revenue</h2>
+  <p>Start from Q2 2026, cut Q3 by 6% once for the usage-policy enforcement, then grow at a steady quarterly rate. The current 2.4x pace would imply $3.7 trillion of 2027 revenue, which isn't possible. Compute sets the real limit: spreading each contract over its term gives about $100B of compute in 2027, enough for roughly $210B of revenue, or about 1.4x a quarter. That's the ceiling; 1.3x is the base case and 1.2x the stress case.</p>
+
+  <h2>4. Adjust for cash and debt</h2>
+  <ul>
+    <li><strong>Add</strong> $131.7B of cash and short-term investments.</li>
+    <li><strong>Subtract</strong> about $115B for the Broadcom equipment leases ($161B over five years, discounted at 9%). Leases are debt in substance.</li>
+    <li><strong>Don't subtract</strong> the cloud purchase deals. They're operating costs of the revenue already being valued, so counting them would double-count.</li>
+  </ul>
+
+  <h2>5. Divide by shares</h2>
+  <p>About 16.9 billion fully diluted shares, inferred from a grant described as 5% of fully diluted shares. New shares sold for cash at a fair price (the IPO itself, Google's $10B option) don't lower value per share, so they're left out.</p>
+
+  <h2>6. Apply the IPO discount</h2>
+  <p>Banks typically price 10–15% below expected trading value so the stock pops on day one. Applied to the ~$110 base case, that gives an IPO range of <strong>$93–99</strong>.</p>
+
+  <h2>Limitations</h2>
+  <ul>
+    <li>Revenue is a single steady growth rate, not a bottom-up forecast.</li>
+    <li>2027 compute capacity is a straight-line estimate; contracts likely ramp more slowly.</li>
+    <li>OpenAI figures come from press reports and conflict with each other.</li>
+    <li>No explicit discount for the founders' 50.1% voting control.</li>
+  </ul>
+
+  <h2>Data &amp; tools</h2>
+  <p>SEC EDGAR (S-1), yfinance (peer data), press reports from CNBC and Bloomberg (OpenAI, xAI). Model written in Python. Full source and README on <a href="https://github.com/sujaynadkarni/anthropic-ipo-prediction">GitHub</a>.</p>
+
+  <footer>
+    Not investment advice. An educational exercise built on the author's assumptions with the help of Claude, an AI model made by Anthropic, the company being valued.
+  </footer>
+</main>
+</body>
+</html>
