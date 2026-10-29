@@ -1,0 +1,4 @@
+ticker,name,trait,ev_bn,ttm_revenue_bn,next_fy_revenue_bn,revenue_growth,gross_margin,ev_to_next_fy_revenue,fetched_on
+PLTR,Palantir,AI premium,463.9,6.16,12.36,0.928,0.848,37.5,2026-10-29
+NVDA,NVIDIA,AI growth at scale,5167.0,302.97,692.21,1.059,0.747,7.5,2026-10-29
+CRWV,CoreWeave,"Compute-heavy, high debt",81.3,7.59,26.47,1.125,0.674,3.1,2026-10-29

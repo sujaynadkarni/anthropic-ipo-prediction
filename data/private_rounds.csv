@@ -1,0 +1,5 @@
+company,date,status,valuation_bn,revenue_run_rate_bn_low,revenue_run_rate_bn_high,note,source_url
+OpenAI,2026-03-31,closed,852,25,25,Run rate at the time per press reports (~$25B plateau in spring),https://www.cnbc.com/2026/03/31/openai-funding-round-ipo.html
+OpenAI,2026-10-22,reported (not closed),1250,50,70,Run rate disputed: ~$70B may count gross partner revenue,https://www.cnbc.com/2026/10/22/openai-funding-round-uae-investors.html
+xAI,2026-02-03,merger with SpaceX,250,0.5,0.5,Strategic merger price; excluded as a peer (~500x revenue),https://www.cnbc.com/2026/02/03/musk-xai-spacex-biggest-merger-ever.html
+Anthropic,2026-06-30,closed (Series H),,46.2,46.2,Valuation derived in model: Series H price per common share x fully diluted shares; run rate = Q2 2026 x 4,https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm

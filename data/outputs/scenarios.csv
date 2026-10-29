@@ -1,0 +1,4 @@
+scenario,quarterly_growth,revenue_2027_bn,price_low,price_high
+stress,1.2,100.8,60.47,90.21
+base,1.3,147.6,88.16,131.74
+compute ceiling,1.4,211.7,126.0,188.5

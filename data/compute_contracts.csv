@@ -1,0 +1,9 @@
+counterparty,total_bn,start,end,method,est_2027_bn,note,s1_quote
+Microsoft,44.9,2026-11,2033-05,straight_line,,,committed to spend an aggregate of at least $44.9 billion between November 2026 and May 2033
+Google Cloud,114.5,2026-04,2033-07,straight_line,,,committed to spend at least approximately $114.5 billion between April 2026 and July 2033
+Amazon (AWS),110.0,2026-05,2036-04,straight_line,,,committed to spend an aggregate of at least $110.0 billion between May 2026 and April 2036
+Nscale,44.6,2026-08,2033-12,straight_line,,"""into 2033""; end month assumed",spend an aggregate of up to approximately $44.6 billion over terms extending into 2033
+Lambda,41.3,2026-05,2034-12,straight_line,,"""into 2034""; end month assumed",spend an aggregate of approximately $41.3 billion over terms extending into 2034
+SpaceXAI,120.5,2026-05,2029-12,override,37.2,$3.1B per month x 12 once fully delivered (Dec 2026),approximately $3.1 billion in the aggregate per month once all capacity has been delivered
+Broadcom (TPU leases),161.2,2027-01,2031-12,override,16.0,About half a year of rent: capacity comes online through 2027,equal to an aggregate of approximately $161.2 billion excluding interest
+AMD,20.0,2027-01,2027-12,override,5.0,Initial tranche in 2027; assumed partly delivered,we expect aggregate expenditures to exceed $20.0 billion over the term of the agreement

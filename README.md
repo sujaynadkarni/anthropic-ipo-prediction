@@ -19,11 +19,41 @@ A learning project: estimating Anthropic's IPO price from its S-1, step by step,
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python run.py            # live peer data from yfinance
-python run.py --offline  # use the 2026-10-27 peer snapshot
+
+# 1. Collect data (optional: data/ is already committed)
+SEC_USER_AGENT="Your Name you@example.com" python -m scrapers.edgar   # S-1 tables and facts
+python -m scrapers.peers                                              # peer multiples
+
+# 2. Run the model
+python run.py
+
+# 3. Check results still match
+python -m unittest
 ```
 
-No API keys or environment variables are required.
+No API keys are needed. SEC EDGAR asks every script to identify itself with a name and email in the `User-Agent` header; pass yours through the `SEC_USER_AGENT` environment variable. It is never written to disk.
+
+## Data pipeline
+
+```
+SEC EDGAR (S-1 HTML) --scrapers/edgar.py--> data/s1/*.csv  --+
+Yahoo Finance        --scrapers/peers.py--> data/peers.csv  --+--> valuation/ --> run.py --> data/outputs/scenarios.csv
+Hand-curated, sourced -------------------> data/*.csv       --+
+```
+
+| File | Contents | How it's made |
+|---|---|---|
+| `data/s1/quarterly.csv` | Revenue and compute cost by quarter, Q1 2025–Q2 2026 | Parsed from the S-1 quarterly results table |
+| `data/s1/income_statement.csv` | Annual and half-year expenses by type | Parsed from the summary financial table |
+| `data/s1/opex_by_function.csv` | Cost of revenue, R&D, S&M, G&A (Note 8) | Parsed from the notes to the financial statements |
+| `data/s1/commitments.csv` | Non-cancelable commitments by year | Parsed from the commitments table |
+| `data/s1/facts.csv` | Cash, lease totals, share counts, Series H price, split ratio, etc. | Regex over the filing text; each row keeps the exact sentence it came from |
+| `data/compute_contracts.csv` | Each compute deal: amount, term, estimated 2027 spend | Hand-curated from the MD&A; `scrapers/edgar.py` checks every quote appears verbatim in the filing |
+| `data/peers.csv` | Peer EV, revenue estimates, multiples | `scrapers/peers.py` via yfinance |
+| `data/private_rounds.csv` | OpenAI, xAI and Anthropic private valuations | Hand-curated from press reports, with source links (news sites are paywalled, so not scraped) |
+| `data/outputs/scenarios.csv` | Model results by scenario | Written by `run.py` |
+
+When the amended S-1 (S-1/A) is filed, re-run `scrapers/edgar.py --url <new filing URL> --force` and the model picks up the new numbers.
 
 ## How the analysis was done
 
@@ -59,7 +89,7 @@ We picked **10–15x forward revenue**: between NVIDIA and Palantir, anchored on
 - Cut Q3 2026 by **6%** once (usage-policy violators removed in Aug–Sep).
 - Grow at a constant quarterly rate through Q4 2027 and sum the four 2027 quarters.
 
-Why 1.3x as the base: 2.4x/quarter would put 2027 revenue at ~$3.7T, which is impossible. **Compute is the real limit.** Spreading each compute contract evenly over its term gives roughly $100B of compute available in 2027. At today's compute-to-revenue ratio (~48%), that supports ~$210B of revenue, which corresponds to **~1.4x a quarter (the ceiling)**. 1.2x is the stress case; 1.3x is the base.
+Why 1.3x as the base: 2.4x/quarter would put 2027 revenue at ~$3.7T, which is impossible. **Compute is the real limit.** Spreading each compute contract in `data/compute_contracts.csv` over its term gives about $103B of compute in 2027 (`model.compute_spend_2027`). At today's compute-to-revenue ratio (~48%), that supports ~$210B of revenue, which `model.compute_ceiling_growth` solves to **1.40x a quarter (the ceiling)**. 1.2x is the stress case; 1.3x is the base.
 
 ### 4. Adjust from enterprise value to equity value
 - **Add cash:** $112.4B cash + $19.3B short-term investments (June 30, 2026).
@@ -81,32 +111,37 @@ Growth dominates everything. Going from 1.4x to 1.2x quarterly growth roughly ha
 
 | Data | Source |
 |---|---|
-| Financials, commitments, notes, share structure | [Anthropic S-1, SEC EDGAR](https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm) (filed 2026-10-26), read via browser and transcribed into `valuation/inputs.py` with section references |
+| Financials, commitments, notes, share structure | [Anthropic S-1, SEC EDGAR](https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm) (filed 2026-10-26), downloaded and parsed by `scrapers/edgar.py` |
 | Peer EV and revenue estimates | [yfinance](https://github.com/ranaroussi/yfinance) (unofficial Yahoo Finance scraper; no key) |
 | OpenAI valuation and revenue | Press reports, e.g. [CNBC](https://www.cnbc.com/2026/10/22/openai-funding-round-uae-investors.html), [Bloomberg](https://www.bloomberg.com/news/articles/2026-10-22/openai-shifts-value-to-1-25-trillion-as-funding-talks-finalize), [Sacra](https://sacra.com/c/openai/) (unaudited, numbers conflict) |
 | xAI valuation | [CNBC](https://www.cnbc.com/2026/02/03/musk-xai-spacex-biggest-merger-ever.html) |
 
-Note: scripted requests to SEC EDGAR require a `User-Agent` header with a contact email. This project doesn't fetch from EDGAR in code; if you add that, put your contact in an environment variable, never in the code.
-
 ## Tech stack
 - **Python 3.9+**
-- **yfinance** for live peer data (falls back to a hard-coded snapshot)
-- No other dependencies
+- **requests + BeautifulSoup** to download and parse the S-1 from SEC EDGAR
+- **yfinance** for peer market data (no key)
+- **unittest** to check the data and model reproduce the published results
 
 ## Project layout
 
 ```
-valuation/inputs.py   every number used, with its S-1 section or rationale
-valuation/model.py    revenue projection, lease PV, price per share
-valuation/peers.py    peer multiples (live or snapshot)
-run.py                prints the full valuation
+scrapers/edgar.py     download the S-1 and extract tables and facts into data/s1/
+scrapers/peers.py     fetch peer multiples into data/peers.csv
+data/                 all inputs (scraped and hand-curated) and outputs, as CSV
+valuation/inputs.py   loads data/ and holds the stated assumptions
+valuation/model.py    revenue projection, compute ceiling, lease PV, price per share
+run.py                prints the valuation and writes data/outputs/scenarios.csv
+tests/                checks the pipeline reproduces the published numbers
+docs/                 GitHub Pages write-up
 ```
 
 ## Limitations
 - The 2027 revenue forecast is a single constant growth rate, not a bottom-up model.
 - Compute capacity in 2027 is a straight-line estimate across contracts that likely ramp up over time.
 - The gross margin allocation isn't disclosed, so it isn't modeled; the revenue multiple stands in for it.
-- The share count will change in the S-1/A; update `FULLY_DILUTED_SHARES` when it's published.
+- The share count is inferred from one sentence in the S-1; the S-1/A should give the real number.
+- Compute contract end months and 2027 estimates for SpaceXAI, Broadcom and AMD are assumptions, noted in the CSV.
+- The S-1 parser matches table labels and sentence wording; if an amendment rewords them, it stops with an error naming what it couldn't find.
 - Governance (founders' 50.1% voting control) isn't explicitly discounted.
 
 ## Next
