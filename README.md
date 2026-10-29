@@ -53,6 +53,8 @@ Hand-curated, sourced -------------------> data/*.csv       --+
 | `data/private_rounds.csv` | OpenAI, xAI and Anthropic private valuations | Hand-curated from press reports, with source links (news sites are paywalled, so not scraped) |
 | `data/outputs/scenarios.csv` | Model results by scenario | Written by `run.py` |
 
+The original S-1 is committed at `data/raw/anthropic-s1.htm` (14 MB, public SEC filing), so `python -m scrapers.edgar` re-parses it without contacting SEC.
+
 When the amended S-1 (S-1/A) is filed, re-run `scrapers/edgar.py --url <new filing URL> --force` and the model picks up the new numbers.
 
 ## How the analysis was done

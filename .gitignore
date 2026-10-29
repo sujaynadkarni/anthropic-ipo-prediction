@@ -9,5 +9,3 @@ __pycache__/
 *.pyc
 .DS_Store
 
-# Cached SEC filings (large; re-download with scrapers/edgar.py)
-data/raw/
